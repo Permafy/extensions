@@ -1,5 +1,9 @@
+<script>
+    import { base } from '$app/paths';
+</script>
+
 <img
-    src="/title.png"
+    src="{base}/title.png"
     alt="Permafy Logo"
     class="logo"
 />

@@ -1,5 +1,6 @@
 <script>
     import { onMount } from 'svelte';
+    import { base } from '$app/paths';
     import { page } from '$app/stores';
     import { Tags } from "../extension-tags";
     import stateApplication from '$lib/state/app.svelte.js';
@@ -11,7 +12,7 @@
         ...props
     } = $props();
     let name = $derived(props.name || "Test");
-    let image = $derived(props.image || "/images/example.avif");
+    let image = $derived(props.image || `${base}/images/example.avif`);
     let tags = $derived(props.tags || []);
     let url = $derived(props.url || "");
     let notes = $derived(props.notes || "");
@@ -215,7 +216,7 @@
     {#each displayedTags as tag}
         <div class="block-tag-banner">
             <img
-                src={tag.banner}
+                src={tag.banner.startsWith('/') ? `${base}${tag.banner}` : tag.banner}
                 alt={tag.alias || tag.name}
                 class="block-tag-banner-image"
                 loading="lazy"
@@ -244,7 +245,7 @@
                 </button>
             {/if}
             <img
-                src={image}
+                src={image.startsWith('/') ? `${base}${image}` : image}
                 alt={name}
                 class="image"
                 loading="lazy"
@@ -254,15 +255,15 @@
         <div class="title">
             {name}
             {#if unstable}
-                <button class="unstable-warning">
+                <button class="unstable-warning" style={`background-image: url('${base}/icons/warning2.png');`}>
                     <div class="unstable-message">{unstableReason}</div>
                 </button>
             {/if}
             <button class="favorite-button" onclick={() => props?.onfavoriteclicked(relUrl)}>
                 {#if favorited}
-                    <img src="/icons/favorite-filled.svg" alt="Favorited" title="Favorited" />
+                    <img src="{base}/icons/favorite-filled.svg" alt="Favorited" title="Favorited" />
                 {:else}
-                    <img src="/icons/favorite-outline.svg" alt="Favorite" title="Favorite" />
+                    <img src="{base}/icons/favorite-outline.svg" alt="Favorite" title="Favorite" />
                 {/if}
             </button>
         </div>
@@ -500,7 +501,6 @@
         background: transparent;
     }
     .unstable-warning {
-        background-image: url('/icons/warning2.png');
         background-position: center;
         background-size: 80%;
         background-repeat: no-repeat;

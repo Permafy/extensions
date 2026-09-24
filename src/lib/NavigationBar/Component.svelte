@@ -1,5 +1,6 @@
 <script>
     import {onMount} from 'svelte';
+    import { base } from '$app/paths';
 
     // Components
     import BarPage from "./Page.svelte";
@@ -39,8 +40,8 @@
 </script>
 
 <div class="bar">
-    <a class="logo" href="/">
-        <img class="logo-image" src="/title.png" alt="Permafy" />
+    <a class="logo" href="{base}/">
+        <img class="logo-image" src="{base}/title.png" alt="Permafy" />
     </a>
     <div style="margin-right: 12px;"></div>
     <BarPage link={"/docs"}>Documentation</BarPage>
@@ -49,7 +50,7 @@
         <div class="search">
             <button class="search-button" onclick={searchExtensions}>
                 <img
-                    src="/icons/search-icon.svg"
+                    src="{base}/icons/search-icon.svg"
                     alt="Search"
                     style="width:30px; height:20px; margin-bottom:5px; margin-top: 5px;"
                 />

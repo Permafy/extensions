@@ -1,5 +1,6 @@
 <script>
     import { onMount } from 'svelte';
+    import { base } from '$app/paths';
     import { page } from '$app/stores';
     import { browser } from "$app/environment";
     import localforage from "localforage";
@@ -257,14 +258,14 @@
 <div class="extension-list-controls">
     <button onclick={toggleFilterBar}>
         <img
-            src="/icons/filter.svg"
+            src="{base}/icons/filter.svg"
             alt="Filters"
             title="Filters"
         />
     </button>
     <div class="extension-list-controls-sorting-selector-image-container-div">
         <img
-            src="/icons/sort.svg"
+            src="{base}/icons/sort.svg"
             alt="Sort"
             title="Sort using the selector"
         />
@@ -283,13 +284,13 @@
         <button onclick={toggleTestInNewProject}>
             {#if showingTestInNewProject}
                 <img
-                    src="/icons/test-enabled.svg"
+                    src="{base}/icons/test-enabled.svg"
                     alt={'Currently showing "Test in New Project" link'}
                     title={'Currently showing "Test in New Project" link'}
                 />
             {:else}
                 <img
-                    src="/icons/test-disabled.svg"
+                    src="{base}/icons/test-disabled.svg"
                     alt={'Currently hiding "Test in New Project" link'}
                     title={'Currently hiding "Test in New Project" link'}
                 />
@@ -350,7 +351,7 @@
             {#each shownExtensions as extension}
                 <Extension
                     name={extension.name}
-                    image={`/images/${extension.banner}`}
+                    image={`${base}/images/${extension.banner}`}
                     tags={extension.tags}
                     creator={extension.creator}
                     creatorAlias={extension.creatorAlias}
@@ -504,13 +505,6 @@
     }
     .extension-list-filters[data-filteropen="true"] {
         display: initial;
-    }
-    .extension-list-filters-label {
-        display: block;
-        margin-top: 8px;
-
-        font-style: italic;
-        opacity: 0.7;
     }
     .extension-list-filters-clear {
         border-color: rgba(0, 0, 0, 0.25);
