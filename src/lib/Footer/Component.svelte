@@ -5,8 +5,8 @@
 <div style="height: 24px"></div>
 <div class="footer">
     <span>
-        GaiaMod is not affiliated with PenguinMod, TurboWarp, Scratch, the Scratch Team, or
-        the Scratch Foundation.
+        Permafy is not affiliated with GaiaMod, PenguinMod, TurboWarp, Scratch, the Scratch Team,
+        or the Scratch Foundation.
     </span>
     <span>
         Scratch is a project of the Scratch Foundation.

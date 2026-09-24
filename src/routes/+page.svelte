@@ -20,6 +20,16 @@
 
     let messageHandlersAdded = false;
     const origin = $page.url.origin;
+    const disclaimerSearchTerms = [
+        "Permafy is not affiliated with GaiaMod",
+        "PenguinMod",
+        "TurboWarp",
+        "Scratch",
+        "the Scratch Team",
+        "the Scratch Foundation",
+        "Scratch is a project of the Scratch Foundation",
+        "https://scratch.org/"
+    ];
     const searchable = (text = '') => {
         text = String(text);
         return text.toLowerCase().trim();
@@ -161,9 +171,25 @@
         updateExtensionList();
     };
     const updateExtensionList = () => {
+        const normalizedQuery = searchable(stateSearchBar.query);
+        const disclaimerMatchesQuery = disclaimerSearchTerms.some(term => searchable(term).includes(normalizedQuery) || normalizedQuery.includes(searchable(term)));
+
         // update the list
         shownExtensions = [...extensions]
-            .filter(extension => searchable(extension.name).includes(stateSearchBar.query))
+            .filter(extension => {
+                const haystack = searchable([
+                    extension.name,
+                    extension.description,
+                    extension.creator,
+                    extension.creatorAlias,
+                    extension.notes,
+                    extension.code,
+                    ...(extension.tags || []),
+                    ...disclaimerSearchTerms,
+                ].join(" "));
+
+                return haystack.includes(normalizedQuery) || (normalizedQuery.length > 0 && disclaimerMatchesQuery);
+            })
             .filter(extension => Object.values(tagsSelected).some(bool => !!bool) ? (extension.tags || []).find(extTag => tagsSelected[extTag] === true) : true)
             .filter(extension => featuresSelected.documentation === 1 ? (!!extension.documentation) : (featuresSelected.documentation === 2 ? !extension.documentation : true))
             .filter(extension => featuresSelected.exampleprojects === 1 ? (!!extension.example) : (featuresSelected.exampleprojects === 2 ? !extension.example : true))
