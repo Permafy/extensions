@@ -45,9 +45,9 @@
     <span style="margin: 0px 6px;">-</span>
     <a
         target="_blank"
-        href="https://github.com/GaiaMod-Main/GaiaMod-ExtensionsGallery/blob/main/README.md"
+        href="/"
     >
-        Submitting an extension
+        Website
     </a>
     <span style="margin: 0px 6px;">-</span>
     <a target="_blank" href="https://discord.gg/fFnNT8RGav">Discord</a>
