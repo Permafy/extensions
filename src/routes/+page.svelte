@@ -227,23 +227,28 @@
 <div class="top">
     <div class="header">
         <Logo />
-        <h1>GaiaMod Extra Extensions</h1>
+        <h1>Permafy</h1>
     </div>
 </div>
 <div class="buffer">
     <p>See some cool extensions made by other people here.</p>
+    <p style="margin-top: 0.25rem; font-size: 0.92rem; opacity: 0.9;">
+        <a href="https://github.com/GaiaMod-Main" target="_blank" rel="noreferrer">
+            This page is a fork of GaiaMod's Extension Gallery.
+        </a>
+    </p>
     {#if stateApplication.fromEditor}
         <p>
             To add an extension to your project, click the "Add to Project" button.
             You can also click the "Copy" button and
-            <a href="load" target="_blank">load it into GaiaMod</a>
+            <a href="load" target="_blank">load it into Permafy</a>
             if the former fails.
         </p>
     {:else}
         <p>
             To use some of these extensions in your projects, click the "Copy Link"
             button on an extension and
-            <a href="load" target="_blank">load it into GaiaMod,</a>
+            <a href="load" target="_blank">load it into Permafy,</a>
             or click the "Try it out" button to create a new project with the extension.
         </p>
     {/if}
@@ -374,7 +379,7 @@
 <div class="buffer">
     <p style="text-align: center;">
         Note: Some extensions may be added to the Extension Gallery in
-        GaiaMod Studio.
+        Permafy Studio.
         <br />
         If you cannot find an extension that was
         previously listed here, check there.

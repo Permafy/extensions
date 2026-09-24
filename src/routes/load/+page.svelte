@@ -7,7 +7,7 @@
 <div class="top">
     <div class="header">
         <Logo />
-        <h1>GaiaMod Extra Extensions</h1>
+        <h1>Permafy</h1>
     </div>
 </div>
 <div class="main">

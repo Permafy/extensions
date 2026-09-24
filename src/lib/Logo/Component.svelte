@@ -1,6 +1,6 @@
 <img
     src="/title.png"
-    alt="GaiaMod Logo"
+    alt="Permafy Logo"
     class="logo"
 />
 

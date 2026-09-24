@@ -40,7 +40,7 @@
 
 <div class="bar">
     <a class="logo" href="/">
-        <img class="logo-image" src="/title.png" alt="GaiaMod" />
+        <img class="logo-image" src="/title.png" alt="Permafy" />
     </a>
     <div style="margin-right: 12px;"></div>
     <BarPage link={"/docs"}>Documentation</BarPage>
