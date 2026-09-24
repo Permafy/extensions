@@ -100,11 +100,49 @@
             );
         }, 1500);
     };
-    
-    const copyToClipboard = (url, ...args) => {
-        navigator.clipboard.writeText(url).then(() => {
-            displayBubbleMessage(copyPrompt, ...args);
-        });
+    const showCopyToast = () => {
+        if (!copyPrompt) return;
+
+        copyPrompt.innerHTML = "<p>Extension URL Copied!</p>";
+        copyPrompt.style.position = "fixed";
+        copyPrompt.style.left = "auto";
+        copyPrompt.style.top = "auto";
+        copyPrompt.style.right = "16px";
+        copyPrompt.style.bottom = "16px";
+
+        const animationDuration = 120;
+        copyPrompt.animate(
+            [
+                { opacity: 0, transform: "translateY(8px)" },
+                { opacity: 1, transform: "translateY(0)" },
+            ],
+            {
+                duration: animationDuration,
+                fill: "forwards",
+            }
+        );
+
+        setTimeout(() => {
+            copyPrompt.animate(
+                [
+                    { opacity: 1, transform: "translateY(0)" },
+                    { opacity: 0, transform: "translateY(8px)" },
+                ],
+                {
+                    duration: animationDuration,
+                    fill: "forwards",
+                }
+            );
+        }, 1500);
+    };
+    const copyToClipboard = async (url) => {
+        try {
+            await navigator.clipboard.writeText(url);
+            showCopyToast();
+        } catch (err) {
+            console.error("Failed to copy extension URL", err);
+            showCopyToast();
+        }
     };
     const loadIntoEditor = (url) => {
         try {
@@ -152,12 +190,28 @@
 </script>
 
 <div bind:this={copyPrompt} class="copied" style="opacity: 0;">
-    <p>Copied to Clipboard!</p>
+    <p>Extension URL Copied!</p>
 </div>
 <div bind:this={addToProjectPrompt} class="copied" style="opacity: 0;">
     <p>Added to project!</p>
 </div>
-<div class="block">
+<div
+    class="block"
+    role="button"
+    tabindex="0"
+    onclick={(event) => {
+        if (stateApplication.fromEditor) return;
+        if (event.target.closest("button, a, input, textarea, select, label")) return;
+        copyToClipboard(url);
+    }}
+    onkeydown={(event) => {
+        if (stateApplication.fromEditor) return;
+        if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            copyToClipboard(url);
+        }
+    }}
+>
     {#each displayedTags as tag}
         <div class="block-tag-banner">
             <img
@@ -313,29 +367,26 @@
     }
 
     .copied {
-        position: absolute;
+        position: fixed;
+        right: 16px;
+        bottom: 16px;
+        left: auto;
+        top: auto;
         pointer-events: none;
 
-        background-color: #23a559;
-        border-radius: 6px;
+        background-color: rgba(15, 23, 42, 0.96);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 10px;
         color: white;
-        padding: 6px;
+        padding: 10px 14px;
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
 
         z-index: 9000;
     }
-    .copied:before {
-        position: absolute;
-        top: 100%;
-        left: calc(50% - 5px);
-        width: 0;
-        border-top: 5px solid #23a559;
-        border-left: 5px solid transparent;
-        border-right: 5px solid transparent;
-
-        content: "";
-    }
     .copied p {
         margin-block: 0;
+        font-size: 0.95rem;
+        font-weight: 600;
     }
 
     .block {

@@ -2,22 +2,22 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="icon" href="%sveltekit.assets%/favicon.ico" />
+		<link rel="icon" href="%sveltekit.assets%/title.png" />
 		<title>GaiaMod Extra Extensions</title>
 
 		<meta name="title" content="GaiaMod Extra Extensions">
 		<meta name="description" content="Even more community extensions that haven't made it to the menu yet.">
-		<meta property="theme-color" content="#5151F4">
+		<meta property="theme-color" content="#8CA9FF">
 		
 		<meta property="og:type" content="website">
 		<meta property="og:url" content="https://gaiamod-main.github.io/GaiaMod-ExtensionsGallery">
 		<meta property="og:title" content="GaiaMod Extra Extensions">
-		<meta property="og:image" content="https://gaiamod-main.github.io/favicon.ico">
+		<meta property="og:image" content="https://gaiamod-main.github.io/title.png">
 		
 		<meta property="twitter:url" content="https://gaiamod-main.github.io/GaiaMod-ExtensionsGallery">
 		<meta property="twitter:title" content="GaiaMod Extra Extensions">
 		<meta property="twitter:description" content="More community extensions that haven't made it to the menu yet.">
-		<meta property="twitter:image" content="https://gaiamod-main.github.io/favicon.ico">
+		<meta property="twitter:image" content="https://gaiamod-main.github.io/title.png">
 
 		<meta name="viewport" content="width=device-width" />
 		<style>
@@ -49,7 +49,11 @@
 	<script>
 		const body = document.getElementById("PAGE_BODY");
 		const darkModeUpdated = () => {
-			const darkmode = String(localStorage.getItem("gm:dark")) === "true";
+			const savedValue = localStorage.getItem("gm:dark");
+			const darkmode = savedValue === null ? true : savedValue === "true";
+			if (savedValue === null) {
+				localStorage.setItem("gm:dark", "true");
+			}
 			body.setAttribute("class", darkmode ? "dark-mode" : "");
 			if (darkmode) {
 				body.style.background = "#111";
@@ -58,8 +62,5 @@
 			body.style.background = "";
 		}
         darkModeUpdated();
-        document.addEventListener("gaiamod-dark-updated", () => {
-            darkModeUpdated();
-        });
 	</script>
 </html>

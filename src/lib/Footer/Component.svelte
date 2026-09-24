@@ -1,27 +1,5 @@
 <script>
-    import { browser } from "$app/environment";
-
     let props = $props();
-
-    let displayedTheme = $state("light");
-    const themeUpdate = (event) => {
-        const isDark = event.target.value === "dark";
-        localStorage.setItem("gm:dark", isDark);
-        
-        const customEvent = new CustomEvent("gaiamod-dark-updated", { detail: isDark });
-        document.dispatchEvent(customEvent);
-    }
-    const updateDisplayedTheme = () => {
-        const darkTheme = String(localStorage.getItem("gm:dark")) === "true";
-        displayedTheme = darkTheme ? "dark" : "light";
-    };
-
-    if (browser) {
-        document.addEventListener("gaiamod-dark-updated", () => {
-            updateDisplayedTheme();
-        });
-        updateDisplayedTheme();
-    }
 </script>
 
 <div style="height: 24px"></div>
@@ -59,16 +37,6 @@
     </div>
 </div>
 <div style="height: 12px"></div>
-<div class="footer">
-    <select
-        value={displayedTheme}
-        onchange={themeUpdate}
-        style="width: 128px; font-size: 16px"
-    >
-        <option value="light">Light</option>
-        <option value="dark">Dark</option>
-    </select>
-</div>
 
 <style>
     :global(body.dark-mode) {

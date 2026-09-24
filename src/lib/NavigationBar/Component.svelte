@@ -10,17 +10,6 @@
     let props = $props();
     let displaySearchBar = $derived(props.displaySearchBar);
 
-    const toggleTheme = () => {
-        let isNowDark = false;
-        if (localStorage.getItem("gm:dark") !== "true") {
-            isNowDark = true;
-        }
-        localStorage.setItem("gm:dark", isNowDark);
-        
-        const event = new CustomEvent("gaiamod-dark-updated", { detail: isNowDark });
-        document.dispatchEvent(event);
-    };
-
     // svelte-ignore non_reactive_update
     // this is from bind:this, idk why svelte is mad
     let searchInput = null;
@@ -51,12 +40,9 @@
 
 <div class="bar">
     <a class="logo" href="/">
-        <img class="logo-image" src="/navicon.png" alt="GaiaMod" />
+        <img class="logo-image" src="/title.png" alt="GaiaMod" />
     </a>
     <div style="margin-right: 12px;"></div>
-    <BarPage style="padding:0.5rem" onclick={toggleTheme}>
-        <img src="/icons/moon.svg" alt="Theme" />
-    </BarPage>
     <BarPage link={"/docs"}>Documentation</BarPage>
 
     {#if displaySearchBar}
@@ -92,10 +78,10 @@
 
 <style>
     :root {
-        --gaiamod-color: hsla(240, 65%, 50%, 1);
+        --gaiamod-color: #8CA9FF;
     }
     :global(body.dark-mode) {
-        --gaiamod-color: hsla(240, 65%, 40%, 1);
+        --gaiamod-color: #8CA9FF;
     }
 
     .bar {

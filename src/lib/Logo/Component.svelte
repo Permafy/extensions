@@ -1,5 +1,5 @@
 <img
-    src="/favicon.ico"
+    src="/title.png"
     alt="GaiaMod Logo"
     class="logo"
 />
