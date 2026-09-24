@@ -1,7 +1,7 @@
 class ExtensionLoader {
     static getTargetOrigin() {
         const isLocal = location.hostname === "localhost";
-        return isLocal ? "http://localhost:3000" : "https://gaiamod-main.github.io/";
+        return isLocal ? "http://localhost:3000" : "https://permafy.github.io/";
     }
     static tryLoadExtension(url) {
         const parent = window.opener || window.parent;

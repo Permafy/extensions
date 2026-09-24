@@ -26,7 +26,7 @@
 
     // used for search
     let relUrl = $derived(props.relUrl);
-    const baseUrl = "https://gaiamod-main.github.io/editor.html?extension=";
+    const baseUrl = "https://permafy.github.io/editor.html?extension=";
 
     /**
      * The button to copy the URL
@@ -288,7 +288,7 @@
         {/if}
         {#if example}
             <p>
-                <a href={`https://gaiamod-main.github.io/editor.html?project_url=${encodeURIComponent(`${$page.url.origin}/examples/projects/${example}`)}`}>
+                <a href={`https://permafy.github.io/editor.html?project_url=${encodeURIComponent(`${$page.url.origin}/examples/projects/${example}`)}`}>
                     Example Project
                 </a>
             </p>
