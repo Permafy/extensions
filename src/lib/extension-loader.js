@@ -1,7 +1,7 @@
 class ExtensionLoader {
     static getTargetOrigin() {
         const isLocal = location.hostname === "localhost";
-        return isLocal ? "http://localhost:3000" : "https://permafy.github.io/";
+        return isLocal ? "http://localhost:3000" : "https://permafy.github.io";
     }
     static tryLoadExtension(url) {
         const parent = window.opener || window.parent;
@@ -17,8 +17,9 @@ class ExtensionLoader {
         const intendedOrigin = ExtensionLoader.getTargetOrigin();
         console.log('Recieved message from', e.origin, e);
 
-        if (!e.origin.startsWith(intendedOrigin)) {
-            console.warn('Message is not from set origin', intendedOrigin, e.origin);
+        const normalizedOrigin = intendedOrigin.replace(/\/$/, "");
+        if (!(e.origin === normalizedOrigin || e.origin.startsWith(`${normalizedOrigin}/`))) {
+            console.warn('Message is not from set origin', normalizedOrigin, e.origin);
             return false;
         }
         if (!e.data) {
