@@ -48,19 +48,8 @@
 	</body>
 	<script>
 		const body = document.getElementById("PAGE_BODY");
-		const darkModeUpdated = () => {
-			const savedValue = localStorage.getItem("gm:dark");
-			const darkmode = savedValue === null ? true : savedValue === "true";
-			if (savedValue === null) {
-				localStorage.setItem("gm:dark", "true");
-			}
-			body.setAttribute("class", darkmode ? "dark-mode" : "");
-			if (darkmode) {
-				body.style.background = "#111";
-				return;
-			}
-			body.style.background = "";
-		}
-        darkModeUpdated();
+		localStorage.setItem("gm:dark", "true");
+		body.setAttribute("class", "dark-mode");
+		body.style.background = "#111";
 	</script>
 </html>

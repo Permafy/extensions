@@ -228,7 +228,6 @@
 <div class="top">
     <div class="header">
         <Logo />
-        <h1>Permafy</h1>
     </div>
 </div>
 <div class="buffer">

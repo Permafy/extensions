@@ -10,7 +10,8 @@
 
 <style>
     .logo {
-        height: 3em;
-        margin-right: 6px;
+        height: 4.2em;
+        margin-right: 0;
+        display: block;
     }
 </style>
