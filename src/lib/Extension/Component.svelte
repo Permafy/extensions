@@ -27,6 +27,12 @@
     // used for search
     let relUrl = $derived(props.relUrl);
     const baseUrl = "https://permafy.github.io/editor.html?extension=";
+    const resolveAssetPath = (path) => {
+        if (!path) return path;
+        if (path.startsWith("http://") || path.startsWith("https://") || path.startsWith("data:")) return path;
+        if (path.startsWith(base)) return path;
+        return path.startsWith("/") ? `${base}${path}` : path;
+    };
 
     /**
      * The button to copy the URL
@@ -216,7 +222,7 @@
     {#each displayedTags as tag}
         <div class="block-tag-banner">
             <img
-                src={tag.banner.startsWith('/') ? `${base}${tag.banner}` : tag.banner}
+                src={resolveAssetPath(tag.banner)}
                 alt={tag.alias || tag.name}
                 class="block-tag-banner-image"
                 loading="lazy"
@@ -245,7 +251,7 @@
                 </button>
             {/if}
             <img
-                src={image.startsWith('/') ? `${base}${image}` : image}
+                src={resolveAssetPath(image)}
                 alt={name}
                 class="image"
                 loading="lazy"
