@@ -1,25 +1,66 @@
 class ExtensionLoader {
     static getTargetOrigin() {
-        const isLocal = location.hostname === "localhost";
-        return isLocal ? "http://localhost:3000" : "https://permafy.github.io";
+        const possibleOrigins = [];
+
+        if (window.opener && !window.opener.closed) {
+            try {
+                possibleOrigins.push(new URL(window.opener.location.href).origin);
+            } catch (err) {
+                // ignore inaccessible opener URL
+            }
+        }
+
+        if (window.parent && window.parent !== window) {
+            try {
+                possibleOrigins.push(new URL(window.parent.location.href).origin);
+            } catch (err) {
+                // ignore inaccessible parent URL
+            }
+        }
+
+        if (document.referrer) {
+            try {
+                possibleOrigins.push(new URL(document.referrer).origin);
+            } catch (err) {
+                // ignore invalid referrer
+            }
+        }
+
+        if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
+            possibleOrigins.push("http://localhost:3000");
+            possibleOrigins.push("http://localhost:5173");
+        }
+
+        possibleOrigins.push("https://permafy.github.io");
+
+        const origin = possibleOrigins.find(Boolean);
+        return origin ? origin.replace(/\/$/, "") : "*";
     }
     static tryLoadExtension(url) {
         const parent = window.opener || window.parent;
-        if (!parent || parent === window) throw new Error("No parents");
+        if (!parent || parent === window) throw new Error("No parent window available to import the extension into your project.");
 
         const origin = ExtensionLoader.getTargetOrigin();
         parent.postMessage({
             loadExt: `${url}`
-        }, origin);
+        }, origin === "*" ? "*" : origin);
     }
     static handleWindowMessage(e) {
         // return false, invalid message; return extension "id", success; throw error, something failed
-        const intendedOrigin = ExtensionLoader.getTargetOrigin();
-        console.log('Recieved message from', e.origin, e);
+        const intendedOrigins = new Set([
+            ExtensionLoader.getTargetOrigin(),
+            location.origin,
+            document.referrer ? new URL(document.referrer).origin : null,
+        ].filter(Boolean).map((origin) => origin.replace(/\/$/, "")));
 
-        const normalizedOrigin = intendedOrigin.replace(/\/$/, "");
-        if (!(e.origin === normalizedOrigin || e.origin.startsWith(`${normalizedOrigin}/`))) {
-            console.warn('Message is not from set origin', normalizedOrigin, e.origin);
+        const matchesAllowedOrigin = [...intendedOrigins].some((origin) => {
+            if (origin === "*") return true;
+            return e.origin === origin || e.origin.startsWith(`${origin}/`);
+        });
+
+        console.log('Received message from', e.origin, e);
+        if (!matchesAllowedOrigin) {
+            console.warn('Message is not from an allowed origin', [...intendedOrigins], e.origin);
             return false;
         }
         if (!e.data) {
@@ -44,7 +85,7 @@ class ExtensionLoader {
 
         // evil fail
         console.error('Loading extension failed', eventData);
-        throw new Error(eventData.error);
+        throw new Error(eventData.error || 'Unknown extension import error.');
     }
 }
 
