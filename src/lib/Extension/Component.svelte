@@ -26,7 +26,7 @@
 
     // used for search
     let relUrl = $derived(props.relUrl);
-    const editorBaseUrl = "https://studio.penguinmod.com/editor.html?extension=";
+    const baseUrl = "https://permafy.github.io/editor.html?extension=";
     const resolveAssetPath = (path) => {
         if (!path) return path;
         if (path.startsWith("http://") || path.startsWith("https://") || path.startsWith("data:")) return path;
@@ -294,7 +294,7 @@
         {/if}
         {#if example}
             <p>
-                <a href={`https://studio.penguinmod.com/editor.html?project_url=${encodeURIComponent(`${$page.url.origin}/examples/projects/${example}`)}`}>
+                <a href={`https://permafy.github.io/editor.html?project_url=${encodeURIComponent(`${$page.url.origin}/examples/projects/${example}`)}`}>
                     Example Project
                 </a>
             </p>
@@ -310,7 +310,7 @@
         {#if props.showTestAlways && stateApplication.fromEditor}
             <p class="block-buttons-link">
                 <a
-                    href={`${editorBaseUrl}${encodeURIComponent(url)}`}
+                    href={baseUrl + url}
                     target="_blank"
                 >
                     Test in New Project
@@ -342,7 +342,7 @@
                     Copy Link
                 </button>
                 <a
-                    href={`${editorBaseUrl}${encodeURIComponent(url)}`}
+                    href={baseUrl + url}
                     target="_blank"
                 >
                     <button class="purple">Try it out!</button>
