@@ -5,14 +5,16 @@
         pleas dont remove them :)
 */
 
-export default [
+import temporaryExtensions from "./temporary-extensions-data.js";
+
+const localExtensions = [
     {
         name: "Gaia Utilities",
         description: "Wonderful utility blocks!",
         code: "GaiaWindWave90/GaiaBlocks.js",
         banner: "GaiaWindWave90/GaiaUtilities.png",
         creator: "GaiaWindWave90 and other users",
-        isGitHub: true,        
+        isGitHub: true,
     },
     {
         name: 'GaiaGPT',
@@ -44,7 +46,7 @@ export default [
         code: "GaiaWindWave90/PenguinAttack.js",
         banner: "GaiaWindWave90/PenguinAttack.png",
         creator: "GaiaWindWave90",
-        isGitHub: true,        
+        isGitHub: true,
     },
     {
         name: "Cocrea Fetch",
@@ -52,7 +54,7 @@ export default [
         code: "GaiaWindWave90/cocreaFetch.js",
         banner: "GaiaWindWave90/cocreaFetch.png",
         creator: "fath11",
-        isGitHub: true,        
+        isGitHub: true,
     },
     {
         name: "Webcam Recorder",
@@ -60,6 +62,13 @@ export default [
         code: "GaiaWindWave90/Webcamrecorder.js",
         banner: "GaiaWindWave90/WebCamThumb.png",
         creator: "-SIPC-",
-        isGitHub: true,        
+        isGitHub: true,
     },
 ];
+
+const mergedExtensions = [...localExtensions, ...temporaryExtensions];
+const uniqueExtensions = Array.from(new Map(
+    mergedExtensions.map((extension) => [String(extension.code || extension.name), extension])
+).values());
+
+export default uniqueExtensions;
