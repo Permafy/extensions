@@ -31,6 +31,7 @@ class ExtensionLoader {
             possibleOrigins.push("http://localhost:5173");
         }
 
+        possibleOrigins.push("https://studio.penguinmod.com");
         possibleOrigins.push("https://permafy.github.io");
 
         const origin = possibleOrigins.find(Boolean);
