@@ -20,6 +20,41 @@
 
     let messageHandlersAdded = false;
     const origin = $page.url.origin;
+    const mergeExtensions = (baseList = [], extras = []) => {
+        const merged = new Map();
+        for (const extension of [...baseList, ...extras]) {
+            if (!extension || typeof extension !== "object") continue;
+            const key = extension.code || extension.name;
+            if (!key) continue;
+            merged.set(String(key), extension);
+        }
+        return [...merged.values()];
+    };
+    const asyncFetchRemoteExtensions = async () => {
+        const urls = [
+            "https://raw.githubusercontent.com/Permafy/temporary-extensions/main/src/lib/extensions.js",
+            "https://raw.githubusercontent.com/Permafy/temporary-extensions/master/src/lib/extensions.js",
+            "https://raw.githubusercontent.com/Permafy/temporary-extensions/main/extensions.js",
+            "https://raw.githubusercontent.com/Permafy/temporary-extensions/master/extensions.js",
+        ];
+
+        for (const url of urls) {
+            try {
+                const res = await fetch(url, { cache: "no-store" });
+                if (!res.ok) continue;
+                const source = await res.text();
+                const withoutExport = source.replace(/^\s*export\s+default\s+/, "return ")
+                    .replace(/;\s*$/, "");
+                const parsed = Function(`"use strict"; ${withoutExport}`)();
+                if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+            } catch (err) {
+                console.warn("Failed to load remote extension list:", url, err);
+            }
+        }
+
+        return [];
+    };
+    let mergedExtensions = $state(mergeExtensions(extensions, []));
     const disclaimerSearchTerms = [
         "Permafy is not affiliated with GaiaMod",
         "PenguinMod",
@@ -72,7 +107,7 @@
     onMount(() => {
         // first fill tagGrouping so we can group them together properly & sort them
         let usedTags = [];
-        for (const extension of extensions) {
+        for (const extension of mergedExtensions) {
             if (extension.tags) {
                 usedTags = [].concat(usedTags, extension.tags);
             }
@@ -175,7 +210,7 @@
         const disclaimerMatchesQuery = disclaimerSearchTerms.some(term => searchable(term).includes(normalizedQuery) || normalizedQuery.includes(searchable(term)));
 
         // update the list
-        shownExtensions = [...extensions]
+        shownExtensions = [...mergedExtensions]
             .filter(extension => {
                 const haystack = searchable([
                     extension.name,
@@ -240,6 +275,10 @@
         document.dispatchEvent(event);
     });
     onMount(async () => {
+        const remoteExtensions = await asyncFetchRemoteExtensions();
+        if (remoteExtensions.length > 0) {
+            mergedExtensions = mergeExtensions(extensions, remoteExtensions);
+        }
         await loadFromStorage();
         hasStorageBeenLoaded = true;
     });
