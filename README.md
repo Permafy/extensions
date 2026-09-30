@@ -46,7 +46,7 @@ Ideally, this banner / thumbnail should be 600x300 pixels. (may be resized if it
 ### Step 3.
 Add your extension in the `static/extensions` folder.
 
-Open [this link](https://github.com/PenguinMod/PenguinMod-ExtensionsGallery/tree/main/static/extensions) in a new tab to open the folder.
+Open [this link](https://github.com/Permafy/extensions/tree/main/static/extensions) in a new tab to open the folder.
 
 Click `Add File` at the top and click `Create new file`.
 

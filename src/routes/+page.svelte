@@ -35,7 +35,8 @@
         return text.toLowerCase().trim();
     };
     const createExtUrl = (relativeUrl) => {
-        return `${origin}/extensions/${relativeUrl}`;
+        const deploymentBase = import.meta.env.PROD ? '/extensions' : '';
+        return `${origin}${deploymentBase}/extensions/${relativeUrl}`;
     };
     $effect(() => {
         if (messageHandlersAdded) return;
